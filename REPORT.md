@@ -1,4 +1,4 @@
-# WeFit Final Report (Canvas: BaskarPGuruswamyS)
+# WeFit Final Report 
 
 ## README: Build and Run
 - See `README.md` in project root for step-by-step instructions.
