@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Schedules</h1>
+<a class="button is-primary" href="/schedules/create">Create Schedule</a>
+<table class="table is-fullwidth">
+  <thead><tr><th>S.No</th><th>Name</th><th>User</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% if schedules and schedules|length > 0 %}
+    {% for s in schedules %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ s.schedulename }} <span class="has-text-grey-light">(id: {{ s.scheduleid }})</span></td>
+        <td>{{ s.firstname }} {{ s.lastname }}</td>
+        <td>
+          <a class="button is-small" href="/events/{{ s.scheduleid }}">Events</a>
+          <form method="post" action="/schedules/{{ s.scheduleid }}/delete" style="display:inline">
+            <button class="button is-danger is-small" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  {% else %}
+      <tr>
+        <td>—</td>
+        <td>e.g., Morning Routine</td>
+        <td>e.g., Signed-in user</td>
+        <td><span class="tag is-light">Add events to see details</span></td>
+      </tr>
+  {% endif %}
+  </tbody>
+</table>
+{% endblock %}

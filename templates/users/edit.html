@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Edit User</h1>
+{% if user %}
+<form method="post">
+  <div class="field"><label class="label">First Name</label><div class="control"><input class="input" name="firstName" value="{{ user.firstname }}" required></div></div>
+  <div class="field"><label class="label">Last Name</label><div class="control"><input class="input" name="lastName" value="{{ user.lastname }}" required></div></div>
+  <button class="button is-primary" type="submit">Save</button>
+</form>
+{% else %}
+<p>User not found.</p>
+{% endif %}
+{% endblock %}

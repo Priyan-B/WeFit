@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Create Event for {{ scheduleName or 'Schedule ' ~ scheduleID }}</h1>
+<form method="post">
+  <div class="field"><label class="label">Title</label><div class="control"><input class="input" name="eventTitle" required></div></div>
+  <div class="field"><label class="label">Category</label>
+    <div class="select"><select name="categoryID"><option value="">None</option>
+      {% for c in categories %}
+        <option value="{{ c.categoryid }}">{{ c.categoryname }}</option>
+      {% endfor %}
+    </select></div>
+  </div>
+  <div class="field"><label class="label">Start</label><div class="control"><input class="input" type="datetime-local" name="startTime" required></div></div>
+  <div class="field"><label class="label">End</label><div class="control"><input class="input" type="datetime-local" name="endTime" required></div></div>
+  <div class="field"><label class="label">Description</label><div class="control"><textarea class="textarea" name="description"></textarea></div></div>
+  <button class="button is-primary" type="submit">Create</button>
+</form>
+{% endblock %}

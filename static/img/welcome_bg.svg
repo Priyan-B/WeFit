@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eff6ff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <style>
+      .clock { fill: none; stroke: #2563eb; stroke-width: 6; }
+      .tick { stroke: #1e40af; stroke-width: 4; }
+      .hand { stroke: #0ea5e9; stroke-width: 6; stroke-linecap: round; }
+      .label { fill: #334155; font-family: Arial, Helvetica, sans-serif; font-size: 20px; }
+      .schedule { fill: #dbeafe; stroke: #60a5fa; stroke-width: 2; }
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <!-- Decorative clocks -->
+  <g transform="translate(250,220)">
+    <circle class="clock" cx="0" cy="0" r="90"/>
+    <line class="hand" x1="0" y1="0" x2="0" y2="-60"/>
+    <line class="hand" x1="0" y1="0" x2="50" y2="0"/>
+    <g>
+      <line class="tick" x1="0" y1="-80" x2="0" y2="-90"/>
+      <line class="tick" x1="80" y1="0" x2="90" y2="0"/>
+      <line class="tick" x1="0" y1="80" x2="0" y2="90"/>
+      <line class="tick" x1="-80" y1="0" x2="-90" y2="0"/>
+    </g>
+  </g>
+  <g transform="translate(1340,180)">
+    <circle class="clock" cx="0" cy="0" r="70"/>
+    <line class="hand" x1="0" y1="0" x2="0" y2="-45"/>
+    <line class="hand" x1="0" y1="0" x2="35" y2="0"/>
+  </g>
+  <g transform="translate(1050,700)">
+    <circle class="clock" cx="0" cy="0" r="60"/>
+    <line class="hand" x1="0" y1="0" x2="0" y2="-40"/>
+    <line class="hand" x1="0" y1="0" x2="30" y2="0"/>
+  </g>
+
+  <!-- Schedule cards -->
+  <g transform="translate(450,150)">
+    <rect class="schedule" x="0" y="0" rx="10" ry="10" width="280" height="140"/>
+    <text class="label" x="20" y="40">Schedule</text>
+    <text class="label" x="20" y="80">Sprint Planning</text>
+  </g>
+  <g transform="translate(850,260)">
+    <rect class="schedule" x="0" y="0" rx="10" ry="10" width="300" height="160"/>
+    <text class="label" x="20" y="40">Schedule</text>
+    <text class="label" x="20" y="80">Database Exam Prep</text>
+  </g>
+  <g transform="translate(250,620)">
+    <rect class="schedule" x="0" y="0" rx="10" ry="10" width="320" height="140"/>
+    <text class="label" x="20" y="40">Schedule</text>
+    <text class="label" x="20" y="80">Evening Run</text>
+  </g>
+
+  <!-- Subtle overlay -->
+  <rect width="1600" height="900" fill="#ffffff" opacity="0.35"/>
+</svg>

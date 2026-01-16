@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Create Medication</h1>
+<form method="post">
+  <div class="field">
+    <label class="label">Name <span class="has-text-danger">*</span></label>
+    <div class="control"><input class="input" name="medName" required placeholder="e.g., Paracetamol"></div>
+    <p class="help">Example: Paracetamol</p>
+  </div>
+  <div class="field">
+    <label class="label">Dosage <span class="has-text-danger">*</span></label>
+    <div class="control"><input class="input" name="Dosage" required placeholder="e.g., 10mg"></div>
+    <p class="help">Example: 10mg</p>
+  </div>
+  <div class="field">
+    <label class="label">Frequency <span class="has-text-danger">*</span></label>
+    <div class="columns is-mobile">
+      <div class="column is-half">
+        <div class="select is-fullwidth">
+          <select id="freqSelect">
+            <option value="" selected>Select frequency</option>
+            <option>Once a day</option>
+            <option>Twice a day</option>
+            <option>Thrice a day</option>
+          </select>
+        </div>
+      </div>
+      <div class="column is-half">
+        <input class="input" name="Frequency" id="freqInput" required placeholder="e.g., once after a meal">
+      </div>
+    </div>
+    <p class="help">Pick from dropdown or type a custom value</p>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var sel = document.getElementById('freqSelect');
+        var inp = document.getElementById('freqInput');
+        sel.addEventListener('change', function() {
+          if (sel.value) { inp.value = sel.value; }
+        });
+      });
+    </script>
+  </div>
+  <button class="button is-primary" type="submit">Create</button>
+</form>
+{% endblock %}

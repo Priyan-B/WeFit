@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Events for Schedule {{ scheduleName or scheduleID }}</h1>
+<a class="button is-primary" href="/events/create/{{ scheduleID }}">Create Event for {{ scheduleName or 'Schedule ' ~ scheduleID }}</a>
+<table class="table is-fullwidth">
+  <thead><tr><th>S.No</th><th>Title</th><th>Start</th><th>End</th><th>Duration</th><th>Description</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% for e in events %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ e.eventtitle }} <span class="has-text-grey-light">(id: {{ e.eventid }})</span></td>
+      <td>{{ e.starttime }}</td>
+      <td>{{ e.endtime }}</td>
+      <td>{{ format_duration(e.starttime, e.endtime) }}</td>
+      <td>{{ e.description }}</td>
+      <td>
+        <form method="post" action="/events/{{ e.eventid }}/delete" style="display:inline">
+          <button class="button is-danger is-small" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

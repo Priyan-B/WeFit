@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Edit Meal</h1>
+<form method="post" id="mealForm">
+  <div class="field">
+    <label class="label">Meal Type <span class="has-text-danger">*</span></label>
+    <div class="control">
+      <div class="select is-fullwidth">
+        <select name="mealType" required>
+          <option value="breakfast" {% if meal.mealtype=='breakfast' %}selected{% endif %}>breakfast</option>
+          <option value="lunch" {% if meal.mealtype=='lunch' %}selected{% endif %}>lunch</option>
+          <option value="dinner" {% if meal.mealtype=='dinner' %}selected{% endif %}>dinner</option>
+          <option value="snack" {% if meal.mealtype=='snack' %}selected{% endif %}>snack</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Log Time <span class="has-text-danger">*</span></label>
+    <div class="control">
+      <input class="input" type="datetime-local" name="logTime" required value="{{ meal.logtime|replace(' ', 'T') }}">
+    </div>
+    <p class="help">Example: 2025-12-03T08:30</p>
+  </div>
+
+  <hr>
+  <h2 class="subtitle">Items</h2>
+  <p id="dupError" class="help is-danger" style="display:none;">Duplicate foods are not allowed in a meal.</p>
+  <div id="items">
+    {% for it in items %}
+    <div class="field is-grouped item-row">
+      <div class="control">
+        <div class="select">
+          <select name="foodID" required>
+            {% for f in foods %}
+              <option value="{{ f.foodid }}" {% if f.foodid==it.foodid %}selected{% endif %}>{{ f.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="control">
+        <input class="input" type="number" name="quantityInGram" min="1" step="1" value="{{ it.quantityingram }}" placeholder="e.g., 150" required>
+      </div>
+      <div class="control">
+        <button class="button is-danger" type="button" data-action="removeItem">Remove</button>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="field is-grouped item-row">
+      <div class="control">
+        <div class="select">
+          <select name="foodID" required>
+            <option value="" disabled selected>Select food</option>
+            {% for f in foods %}
+              <option value="{{ f.foodid }}">{{ f.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="control">
+        <input class="input" type="number" name="quantityInGram" min="1" step="1" placeholder="e.g., 100" required>
+      </div>
+      <div class="control">
+        <button class="button is-danger" type="button" data-action="removeItem">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="button is-info" type="button" id="addItemBtn">Add Item</button>
+    <button class="button is-primary" type="submit">Save Changes</button>
+    <button class="button" type="button" id="cancelBtn">Cancel</button>
+  </div>
+</form>
+
+<script>
+(function(){
+  var items = document.getElementById('items');
+  var addBtn = document.getElementById('addItemBtn');
+  var form = document.getElementById('mealForm');
+  var dupError = document.getElementById('dupError');
+  var cancelBtn = document.getElementById('cancelBtn');
+
+  function getSelectedValues() {
+    var selects = items.querySelectorAll('select[name="foodID"]');
+    var values = [];
+    for (var i = 0; i < selects.length; i++) {
+      var v = selects[i].value;
+      if (v) values.push(v);
+    }
+    return values;
+  }
+
+  function refreshOptionDisabling() {
+    var selects = items.querySelectorAll('select[name="foodID"]');
+    // Collect chosen values
+    var chosen = {};
+    for (var i = 0; i < selects.length; i++) {
+      var val = selects[i].value;
+      if (val) chosen[val] = true;
+    }
+    // For each select, disable options chosen by others; keep its own current enabled
+    for (var s = 0; s < selects.length; s++) {
+      var current = selects[s].value;
+      var options = selects[s].options;
+      for (var o = 0; o < options.length; o++) {
+        var optVal = options[o].value;
+        if (!optVal) { options[o].disabled = false; continue; }
+        options[o].disabled = !!chosen[optVal] && optVal !== current;
+      }
+    }
+  }
+
+  addBtn.addEventListener('click', function(){
+    var template = items.querySelector('.item-row:last-of-type');
+    var clone = template.cloneNode(true);
+    var select = clone.querySelector('select[name=\"foodID\"]');
+    var qty = clone.querySelector('input[name=\"quantityInGram\"]');
+    select.value = '';
+    qty.value = '';
+    items.appendChild(clone);
+    dupError.style.display = 'none';
+    refreshOptionDisabling();
+  });
+
+  items.addEventListener('change', function(e){
+    if (e.target && e.target.name === 'foodID'){
+      var chosen = e.target.value;
+      if (!chosen) return;
+      dupError.style.display = 'none';
+      refreshOptionDisabling();
+    }
+  });
+
+  // Remove item handler (event delegation)
+  items.addEventListener('click', function(e){
+    if (e.target && e.target.getAttribute('data-action') === 'removeItem'){
+      var row = e.target.closest('.item-row');
+      if (row) {
+        row.parentNode.removeChild(row);
+        dupError.style.display = 'none';
+        refreshOptionDisabling();
+      }
+    }
+  });
+
+  // Cancel: go back to previous page
+  cancelBtn.addEventListener('click', function(){
+    if (document.referrer) {
+      window.location.href = document.referrer;
+    } else {
+      history.back();
+    }
+  });
+
+  form.addEventListener('submit', function(e){
+    dupError.style.display = 'none';
+    // Check for duplicates
+    var selects = items.querySelectorAll('select[name="foodID"]');
+    var seen = {};
+    for (var i = 0; i < selects.length; i++) {
+      var v = selects[i].value;
+      if (!v) continue;
+      if (seen[v]) {
+        e.preventDefault();
+        dupError.style.display = 'block';
+        alert('Duplicate foods are not allowed in a meal.');
+        return false;
+      }
+      seen[v] = true;
+    }
+    return true;
+  });
+
+  // Initial setup
+  refreshOptionDisabling();
+})();
+</script>
+{% endblock %}

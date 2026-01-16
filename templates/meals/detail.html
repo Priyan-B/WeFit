@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Meal Details</h1>
+<div class="box">
+  <p><strong>ID:</strong> {{ meal.meallogid }}</p>
+  <p><strong>Type:</strong> {{ meal.mealtype }}</p>
+  <p><strong>Time:</strong> {{ meal.logtime }}</p>
+  <p><strong>Total Calories:</strong> {{ meal.totalcalories }}</p>
+</div>
+<h2 class="subtitle">Items</h2>
+{% if items and items|length > 0 %}
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Food</th>
+      <th>Quantity (g)</th>
+      <th>Calories</th>
+      <th>Proteins</th>
+      <th>Carbs</th>
+      <th>Fats</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for it in items %}
+    <tr>
+      <td>{{ it.foodname }}</td>
+      <td>{{ it.quantityingram }}</td>
+      <td>{{ it.calories }}</td>
+      <td>{{ it.proteins }}</td>
+      <td>{{ it.carbs }}</td>
+      <td>{{ it.fats }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No items for this meal.</p>
+{% endif %}
+{% endblock %}

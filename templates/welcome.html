@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body {
+    background-image: url('/static/img/home page.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  .welcome-overlay {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .welcome-card {
+    background-color: rgba(255,255,255,0.85);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+</style>
+<div class="section welcome-overlay">
+  <div class="welcome-card">
+    <p class="title">Welcome to WeFit</p>
+    <p class="subtitle">Track schedules, meals, and medications in one place.</p>
+    <a class="button is-primary" href="/login">Log In</a>
+    <p class="mt-3">Don't have an account? You can create one from the login page.</p>
+  </div>
+</div>
+{% endblock %}

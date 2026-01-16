@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Create Schedule</h1>
+<form method="post">
+  <div class="field">
+    <label class="label">Schedule Name <span class="has-text-danger">*</span></label>
+    <div class="control"><input class="input" name="scheduleName" required placeholder="e.g., Morning Routine"></div>
+    <p class="help">Example: Morning Routine</p>
+  </div>
+  <p class="mb-3">This schedule will be created for <strong>{{ firstName }}</strong>.</p>
+  <button class="button is-primary" type="submit">Create</button>
+</form>
+{% endblock %}

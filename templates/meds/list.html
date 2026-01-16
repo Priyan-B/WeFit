@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Medications</h1>
+<a class="button is-primary" href="/meds/create/{{ userID }}">Create Medication</a>
+<table class="table is-fullwidth">
+  <thead><tr><th>S.No</th><th>Name</th><th>Dosage</th><th>Frequency</th><th>Doses Taken</th><th>Doses Skipped</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% if meds and meds|length > 0 %}
+    {% for m in meds %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ m.medname }} <span class="has-text-grey-light">(id: {{ m.medicationid }})</span></td>
+        <td>{{ m.dosage }}</td>
+        <td>{{ m.frequency }}</td>
+        <td>{{ m.dosestaken }}</td>
+        <td>{{ m.dosesskipped }}</td>
+        <td>
+          <form method="post" action="/meds/log/{{ m.medicationid }}" style="display:inline">
+            <input type="hidden" name="takenTime" value="">
+            <label><input type="checkbox" name="isSkipped"> Skipped</label>
+            <button class="button is-small" type="submit">Log</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <tr>
+      <td>—</td>
+      <td>e.g., Metformin</td>
+      <td>e.g., 500 mg</td>
+      <td>e.g., Twice daily</td>
+      <td>0</td>
+      <td>0</td>
+      <td><span class="tag is-light">Add medications to see details</span></td>
+    </tr>
+  {% endif %}
+  </tbody>
+</table>
+{% endblock %}

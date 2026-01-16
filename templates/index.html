@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">My Dashboard</h1>
+{% if uid %}
+  <div class="columns">
+    <div class="column">
+      <h2 class="subtitle">My Schedules</h2>
+      <a class="button is-primary is-small" href="/schedules/create">Create</a>
+      <table class="table is-fullwidth">
+        <thead><tr><th>S.No</th><th>Name</th><th>Events</th></tr></thead>
+        <tbody>
+        {% if schedules and schedules|length > 0 %}
+          {% for s in schedules %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ s.schedulename }} <span class="has-text-grey-light">(id: {{ s.scheduleid }})</span></td>
+              <td><a class="button is-link is-light is-small" href="/events/{{ s.scheduleid }}">View</a></td>
+            </tr>
+          {% endfor %}
+        {% else %}
+            <tr>
+              <td>—</td>
+              <td>e.g., Morning Routine</td>
+              <td><span class="tag is-light">No events</span></td>
+            </tr>
+        {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column">
+      <div class="is-flex is-justify-content-space-between is-align-items-center">
+        <h2 class="subtitle">My Recent Meals</h2>
+        <div>
+          <a class="button is-light is-small" href="/meals/{{ uid }}">View All</a>
+          <a class="button is-primary is-small" href="/meals/create/{{ uid }}">Create Meal</a>
+        </div>
+      </div>
+      {% if meals and meals|length > 0 %}
+        <table class="table is-fullwidth">
+          <thead><tr><th>S.No</th><th>Type</th><th>Time</th><th>Total Calories</th><th>Items (with calories)</th></tr></thead>
+          <tbody>
+          {% for mlid, det in meal_details.items() %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ det['header'].mealtype }} <span class="has-text-grey-light">(id: {{ det['header'].meallogid }})</span></td>
+              <td>{{ det['header'].logtime }}</td>
+              <td>{{ det['header'].totalcalories }}</td>
+              <td>
+                {% if det['items'] and det['items']|length > 0 %}
+                  <ul>
+                    {% for it in det['items'] %}
+                      <li>{{ it.foodname }} — {{ it.calories }} kcal ({{ it.quantityingram }}g)</li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <em>No items</em>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <table class="table is-fullwidth">
+          <thead><tr><th>S.No</th><th>Type</th><th>Time</th><th>Total Calories</th><th>Items (with calories)</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>—</td>
+              <td>e.g., breakfast</td>
+              <td>e.g., 2025-12-04 08:30</td>
+              <td>e.g., 450</td>
+              <td><em>Add items to see details</em></td>
+            </tr>
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+    <div class="column">
+      <div class="is-flex is-justify-content-space-between is-align-items-center">
+        <h2 class="subtitle">My Medications</h2>
+        <div>
+          <a class="button is-light is-small" href="/meds/{{ uid }}">View All</a>
+          <a class="button is-primary is-small" href="/meds/create/{{ uid }}">Create Medication</a>
+        </div>
+      </div>
+      {% if meds and meds|length > 0 %}
+        <table class="table is-fullwidth">
+          <thead><tr><th>S.No</th><th>Name</th><th>Dosage</th><th>Freq</th></tr></thead>
+          <tbody>
+          {% for m in meds %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ m.medname }} <span class="has-text-grey-light">(id: {{ m.medicationid }})</span></td>
+              <td>{{ m.dosage }}</td>
+              <td>{{ m.frequency }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <table class="table is-fullwidth">
+          <thead><tr><th>S.No</th><th>Name</th><th>Dosage</th><th>Freq</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>—</td>
+              <td>e.g., Paracetamol</td>
+              <td>e.g., 10mg</td>
+              <td>e.g., Once a day- after meal</td>
+            </tr>
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+  <p>Please <a href="/login">log in</a> or <a href="/register">register</a> to view your dashboard.</p>
+{% endif %}
+<hr>
+<section>
+  <h2 class="subtitle">Today's Macros</h2>
+  {% if macros_today %}
+    <ul>
+      <li>Calories: {{ macros_today.calories }}</li>
+      <li>Proteins (g): {{ macros_today.protein_g }}</li>
+      <li>Carbs (g): {{ macros_today.carbs_g }}</li>
+      <li>Fats (g): {{ macros_today.fats_g }}</li>
+    </ul>
+  {% else %}
+    <p><em>No macro data for today yet.</em></p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Meals</h1>
+<a class="button is-primary" href="/meals/create/{{ userID }}">Create Meal</a>
+<table class="table is-fullwidth">
+  <thead><tr><th>S.No</th><th>Type</th><th>Time</th><th>Total Calories</th><th>Items</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% if meals and meals|length > 0 %}
+    {% for m in meals %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ m.mealtype }} <span class="has-text-grey-light">(id: {{ m.meallogid }})</span></td>
+        <td>{{ m.logtime }}</td>
+        <td>{{ m.totalcalories }}</td>
+        <td>
+          {% set items = meal_items_map.get(m.meallogid) %}
+          {% if items and items|length > 0 %}
+            <ul>
+              {% for it in items %}
+                <li>{{ it.foodname }} — {{ it.calories }} kcal ({{ it.quantityingram }}g)</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <em>No items</em>
+          {% endif %}
+        </td>
+        <td>
+          <a class="button is-link is-light is-small" href="/meals/edit/{{ m.meallogid }}">Edit</a>
+          <form method="post" action="/meals/{{ m.meallogid }}/delete" style="display:inline">
+            <button class="button is-danger is-small" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <tr>
+      <td>—</td>
+      <td>e.g., breakfast</td>
+      <td>e.g., 2025-12-04 08:30</td>
+      <td>e.g., 450</td>
+      <td><span class="tag is-light">Add items to see details</span></td>
+      <td></td>
+    </tr>
+  {% endif %}
+  </tbody>
+</table>
+{% endblock %}

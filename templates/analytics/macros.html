@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Daily Macros for User {{ userID }} on {{ date }}</h1>
+{% if macros %}
+<ul>
+  <li>Calories: {{ macros.calories }}</li>
+  <li>Proteins (g): {{ macros.protein_g }}</li>
+  <li>Carbs (g): {{ macros.carbs_g }}</li>
+  <li>Fats (g): {{ macros.fats_g }}</li>
+</ul>
+{% else %}
+<p>No data for the selected date.</p>
+{% endif %}
+{% endblock %}

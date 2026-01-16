@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Medication Details</h1>
+<div class="box">
+  <p><strong>ID:</strong> {{ med.medicationid }}</p>
+  <p><strong>Name:</strong> {{ med.medname }}</p>
+  <p><strong>Dosage:</strong> {{ med.dosage }}</p>
+  <p><strong>Frequency:</strong> {{ med.frequency }}</p>
+</div>
+<h2 class="subtitle">Logs</h2>
+{% if logs and logs|length > 0 %}
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Log ID</th>
+      <th>Taken Time</th>
+      <th>Skipped?</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for l in logs %}
+    <tr>
+      <td>{{ l.medlogid }}</td>
+      <td>{{ l.takentime }}</td>
+      <td>{{ l.isskipped }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No logs yet for this medication.</p>
+{% endif %}
+{% endblock %}

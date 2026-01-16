@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Food Library</h1>
+<a class="button is-primary" href="/foods/create">Create Food</a>
+<table class="table is-fullwidth">
+  <thead><tr><th>S.No</th><th>Name</th><th>Calories/100gm</th><th>Proteins</th><th>Carbs</th><th>Fats</th><th>Allergens</th></tr></thead>
+  <tbody>
+  {% for f in foods %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ f.name }} <span class="has-text-grey-light">(id: {{ f.foodid }})</span></td>
+      <td>{{ f.calories }}</td>
+      <td>{{ f.proteins }}</td>
+      <td>{{ f.carbs }}</td>
+      <td>{{ f.fats }}</td>
+      <td>{{ f.allergens or '-' }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

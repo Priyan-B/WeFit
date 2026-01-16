@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="title">Create Food</h1>
+<form method="post">
+  <div class="field">
+    <label class="label">Name <span class="has-text-danger">*</span></label>
+    <div class="control"><input class="input" name="Name" required placeholder="e.g., Chicken Breast"></div>
+    <p class="help">Example: Chicken Breast</p>
+  </div>
+  <div class="field">
+    <label class="label">Calories <span class="has-text-danger">*</span></label>
+    <div class="control"><input class="input" type="number" name="Calories" required placeholder="e.g., 165"></div>
+    <p class="help">Example: 165 (per 100g)</p>
+  </div>
+  <div class="field">
+    <label class="label">Proteins (g/100g) <span class="has-text-danger">*</span></label>
+    <div class="control"><input class="input" type="number" step="0.01" name="Proteins" required placeholder="e.g., 31.00"></div>
+    <p class="help">Example: 31.00</p>
+  </div>
+  <div class="field">
+    <label class="label">Carbs (g/100g) <span class="has-text-danger">*</span></label>
+    <div class="control"><input class="input" type="number" step="0.01" name="Carbs" required placeholder="e.g., 0.00"></div>
+    <p class="help">Example: 0.00</p>
+  </div>
+  <div class="field">
+    <label class="label">Fats (g/100g) <span class="has-text-danger">*</span></label>
+    <div class="control"><input class="input" type="number" step="0.01" name="Fats" required placeholder="e.g., 3.60"></div>
+    <p class="help">Example: 3.60</p>
+  </div>
+  <div class="field">
+    <label class="label">Allergens (comma-separated)</label>
+    <div class="control"><textarea class="textarea" name="Allergens" placeholder="e.g., Gluten, Soy, Dairy"></textarea></div>
+    <p class="help">Optional. Add labels like Gluten, Soy. Use commas to separate.</p>
+  </div>
+  <button class="button is-primary" type="submit">Create</button>
+</form>
+{% endblock %}
