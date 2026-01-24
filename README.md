@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # WeFit
 =======
 # WeFit - Personal Wellness Dashboard
@@ -58,4 +58,5 @@ A Flask web app connected to MySQL, providing CRUD for schedules, events, meals,
   ```sql
   SET GLOBAL event_scheduler = ON;
   ```
+
 >>>>>>> e03e007 (Initial commit)
